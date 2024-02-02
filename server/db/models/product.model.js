@@ -6,8 +6,8 @@ const producSchema = mongoose.Schema({
   priceAfterDiscount: Number,
   finalPrice: Number,
   image: String,
-  category: String,
   stock: Number,
+  category: { type: mongoose.Types.ObjectId, ref: "Category" },
   createdBy: { type: mongoose.Types.ObjectId, ref: "User" },
 });
 

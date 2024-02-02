@@ -1,10 +1,13 @@
-import express from 'express';
+import express from "express";
+import { addProduct, getProductsWithCategory, products } from "./controller/product.controller.js";
+import { auth } from "../../middlewares/auth.js";
 
-const productRouter = express.Router()
+const productRouter = express.Router();
 
-productRouter.get('/product' , (req,res) => {
-    res.send({hello: "hello from product"})
-})
+productRouter.get('/product', products )
 
+productRouter.get('/products/category', getProductsWithCategory)
 
-export default productRouter
+productRouter.post("/product", auth, addProduct);
+
+export default productRouter;
