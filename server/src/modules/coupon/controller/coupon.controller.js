@@ -1,4 +1,6 @@
 import couponModel from "../../../../db/models/coupon.model.js";
+import userModel from "../../../../db/models/user.model.js";
+import productModel from "../../../../db/models/product.model.js";
 
 export const coupons = async (req, res) => {
   const coupons = await couponModel.find();
@@ -19,4 +21,45 @@ export const addCoupon = async (req, res) => {
   });
   if (newCoupon) return res.send(newCoupon);
   res.send({ message: " cant find coupon" });
+};
+
+export const updateCoupon = async (req, res) => {
+  const user = await userModel.findById(req.userId);
+  const { couponCode, value, expiresIn } = req.body;
+  const coupon = await couponModel.findOne({ couponCode });
+  if (!coupon) return res.send({ message: " cant find coupon" });
+  if (user._id.equals(coupon.createdBy) || user.role == "admin") {
+    await couponModel.findOneAndUpdate(
+      { couponCode },
+      {
+        couponCode,
+        value,
+        expiresIn,
+      }
+    );
+    const updatedCoupon = await couponModel.findOne({ couponCode });
+    return res.send({ message: "updated", coupon: updatedCoupon });
+  } else {
+    return res.send({ message: "can't update coupon" });
+  }
+};
+
+export const applyCoupon = async (req, res) => {
+  const { productName, couponCode } = req.body;
+  const product = await productModel.findOne({ productName });
+  if (!product) return res.send({ message: "product not found" });
+  const coupon = await couponModel.findOne({ couponCode });
+  if (!coupon) return res.send({ message: "coupon not found" });
+
+  const priceAfterDiscount = product.finalPrice - coupon.value 
+
+  await productModel.findOneAndUpdate(
+    { productName },
+    {
+      priceAfterDiscount,
+    }
+  );
+
+  const productAfterUpdate = await productModel.findOne({ productName });
+  res.send({ message: "coupon applied", product: productAfterUpdate });
 };
