@@ -70,7 +70,13 @@ export const updateProduct = async (req, res) => {
         finalPrice,
         image,
         stock,
+        category,
       } = req.body;
+      const foundedCategory = await categoryModel.findOne({
+        categoryName: category,
+      });
+      if (!foundedCategory)
+        return res.json({ message: "failed, this category does not exist" });
       await productModel.findByIdAndUpdate(id, {
         productName,
         slug,
@@ -78,6 +84,7 @@ export const updateProduct = async (req, res) => {
         finalPrice,
         image,
         stock,
+        category: foundedCategory._id,
       });
 
       const updatedProduct = await productModel.findById(id);
