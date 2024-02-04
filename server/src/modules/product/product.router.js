@@ -1,13 +1,27 @@
 import express from "express";
-import { addProduct, getProductsWithCategory, products } from "./controller/product.controller.js";
+import {
+  addProduct,
+  getProductsWithCategory,
+  products,
+  updateProduct,
+} from "./controller/product.controller.js";
 import { auth } from "../../middlewares/auth.js";
+import { validate } from "../../middlewares/validate.js";
+import { productSchema, updateProductSchema } from "./product.validation.js";
 
 const productRouter = express.Router();
 
-productRouter.get('/product', products )
+productRouter.get("/product", products);
 
-productRouter.get('/products/category', getProductsWithCategory)
+productRouter.get("/products/category", getProductsWithCategory);
 
-productRouter.post("/product", auth, addProduct);
+productRouter.post("/product", auth, validate(productSchema), addProduct);
+
+productRouter.patch(
+  "/product/:id",
+  auth,
+  validate(updateProductSchema),
+  updateProduct
+);
 
 export default productRouter;

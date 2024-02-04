@@ -1,5 +1,6 @@
 import categoryModel from "../../../../db/models/category.model.js";
 import productModel from "../../../../db/models/product.model.js";
+import userModel from "../../../../db/models/user.model.js";
 
 export const products = async (req, res) => {
   const { productName } = req.body;
@@ -53,4 +54,36 @@ export const addProduct = async (req, res) => {
     category: theCategory._id,
   });
   res.send({ created: newProduct });
+};
+
+export const updateProduct = async (req, res) => {
+  const id = req.params.id;
+  const user = await userModel.findById(req.userId);
+  const foundedProduct = await productModel.findById(id);
+  if (!foundedProduct) return res.send({ message: "product not found" });
+  if (foundedProduct) {
+    if (user._id.equals(foundedProduct.createdBy) || user.role == "admin") {
+      const {
+        productName,
+        slug,
+        priceAfterDiscount,
+        finalPrice,
+        image,
+        stock,
+      } = req.body;
+      await productModel.findByIdAndUpdate(id, {
+        productName,
+        slug,
+        priceAfterDiscount,
+        finalPrice,
+        image,
+        stock,
+      });
+
+      const updatedProduct = await productModel.findById(id);
+      res.json({ message: "updated", product: updatedProduct });
+    } else {
+      res.json({ message: " cant update" });
+    }
+  }
 };
