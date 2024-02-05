@@ -32,7 +32,7 @@ export const updateCoupon = async (req, res) => {
     await couponModel.findOneAndUpdate(
       { couponCode },
       {
-        couponCode : newName,
+        couponCode: newName,
         value,
         expiresIn,
         updatedBy: user._id,
@@ -47,11 +47,11 @@ export const updateCoupon = async (req, res) => {
 export const applyCoupon = async (req, res) => {
   const { productName, couponCode } = req.body;
   const product = await productModel.findOne({ productName });
-  
+
   if (!product) return res.send({ message: "product not found" });
   const coupon = await couponModel.findOne({ couponCode });
   if (!coupon) return res.send({ message: "coupon not found" });
-  if(coupon.deleted === true) return res.send({ message: " deleted coupon" });
+  if (coupon.deleted === true) return res.send({ message: " deleted coupon" });
   const priceAfterDiscount = product.finalPrice - coupon.value;
 
   await productModel.findOneAndUpdate(
