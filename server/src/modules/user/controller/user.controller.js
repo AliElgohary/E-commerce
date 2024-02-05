@@ -104,6 +104,4 @@ export const verifyAccount = async (req, res) => {
   });
 };
 
-export const resetPassword = (req, res) => {
-  
-}
+export const resetPassword = (req, res) => {};

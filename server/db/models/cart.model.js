@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { producSchema } from "./product.model.js";
+
 
 const cartSchema = mongoose.Schema({
   userId: {
@@ -14,19 +16,7 @@ const cartSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  products: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: "Product",
-      quantity: {
-        type: Number,
-        default: 1,
-      },
-      price: {
-        type: Number,
-      },
-    },
-  ],
+  products: [producSchema],
 });
 
 const cartModel = mongoose.model("Cart", cartSchema);

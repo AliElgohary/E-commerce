@@ -25,7 +25,7 @@ export const addCoupon = async (req, res) => {
 
 export const updateCoupon = async (req, res) => {
   const user = await userModel.findById(req.userId);
-  const { couponCode, newName, value, expiresIn } = req.body;
+  const { couponCode, newName, value, expireIn } = req.body;
   const coupon = await couponModel.findOne({ couponCode });
   if (!coupon) return res.send({ message: " cant find coupon" });
   if (user._id.equals(coupon.createdBy) || user.role == "admin") {
@@ -34,7 +34,7 @@ export const updateCoupon = async (req, res) => {
       {
         couponCode: newName,
         value,
-        expiresIn,
+        expireIn,
         updatedBy: user._id,
       }
     );

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const producSchema = mongoose.Schema({
+export const producSchema = mongoose.Schema({
   productName: String,
   slug: String,
   priceAfterDiscount: Number,
