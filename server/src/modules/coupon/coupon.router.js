@@ -1,5 +1,5 @@
 import express from "express";
-import { addCoupon, applyCoupon, coupons, updateCoupon } from "./controller/coupon.controller.js";
+import { addCoupon, applyCoupon, coupons, deleteCoupon, updateCoupon } from "./controller/coupon.controller.js";
 import { auth } from "../../middlewares/auth.js";
 import { validate } from "../../middlewares/validate.js";
 import { couponSchema } from "./coupon.validation.js";
@@ -11,5 +11,7 @@ couponRouter.post("/coupon", validate(couponSchema), auth, addCoupon);
 couponRouter.put('/coupon' , auth, updateCoupon)
 
 couponRouter.patch('/coupon', auth, applyCoupon)
+
+couponRouter.delete('/coupon', auth, deleteCoupon)
 
 export default couponRouter;

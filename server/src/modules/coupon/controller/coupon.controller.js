@@ -25,20 +25,20 @@ export const addCoupon = async (req, res) => {
 
 export const updateCoupon = async (req, res) => {
   const user = await userModel.findById(req.userId);
-  const { couponCode, value, expiresIn } = req.body;
+  const { couponCode, newName, value, expiresIn } = req.body;
   const coupon = await couponModel.findOne({ couponCode });
   if (!coupon) return res.send({ message: " cant find coupon" });
   if (user._id.equals(coupon.createdBy) || user.role == "admin") {
     await couponModel.findOneAndUpdate(
       { couponCode },
       {
-        couponCode,
+        couponCode : newName,
         value,
         expiresIn,
+        updatedBy: user._id,
       }
     );
-    const updatedCoupon = await couponModel.findOne({ couponCode });
-    return res.send({ message: "updated", coupon: updatedCoupon });
+    return res.send({ message: "updated" });
   } else {
     return res.send({ message: "can't update coupon" });
   }
@@ -47,11 +47,12 @@ export const updateCoupon = async (req, res) => {
 export const applyCoupon = async (req, res) => {
   const { productName, couponCode } = req.body;
   const product = await productModel.findOne({ productName });
+  
   if (!product) return res.send({ message: "product not found" });
   const coupon = await couponModel.findOne({ couponCode });
   if (!coupon) return res.send({ message: "coupon not found" });
-
-  const priceAfterDiscount = product.finalPrice - coupon.value 
+  if(coupon.deleted === true) return res.send({ message: " deleted coupon" });
+  const priceAfterDiscount = product.finalPrice - coupon.value;
 
   await productModel.findOneAndUpdate(
     { productName },
@@ -62,4 +63,23 @@ export const applyCoupon = async (req, res) => {
 
   const productAfterUpdate = await productModel.findOne({ productName });
   res.send({ message: "coupon applied", product: productAfterUpdate });
+};
+
+export const deleteCoupon = async (req, res) => {
+  const user = await userModel.findById(req.userId);
+  const { couponCode } = req.body;
+  const coupon = await couponModel.findOne({ couponCode });
+  if (!coupon) return res.send({ message: "coupon not found" });
+  if (user._id.equals(coupon.createdBy) || user.role == "admin") {
+    await couponModel.findOneAndUpdate(
+      { couponCode },
+      {
+        deleted: true,
+        deletedBy: user._id,
+      }
+    );
+    res.send({ message: "deleted" });
+  } else {
+    res.send({ message: "can't delete" });
+  }
 };
