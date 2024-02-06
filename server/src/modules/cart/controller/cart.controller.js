@@ -19,10 +19,11 @@ export const createCart = async (req, res) => {
 };
 
 export const updateCart = async (req, res) => {
-  const { cartId, productNames } = req.body;
-  console.log(productNames);
-
+  const { productNames } = req.body;
+  console.log(productNames)
   try {
+    const userCart = await cartModel.findOne({ userId: req.userId });
+    
     const products = await productModel.find({
       productName: { $in: productNames },
     });
@@ -30,8 +31,9 @@ export const updateCart = async (req, res) => {
     if (!products || products.length === 0) {
       return res.send({ failed: "No products found" });
     }
+
     const updatedCart = await cartModel.findByIdAndUpdate(
-      cartId,
+      userCart._id,
       { $push: { products: { $each: products } } },
       { new: true }
     );
@@ -44,10 +46,12 @@ export const updateCart = async (req, res) => {
       (accumulator, product) => accumulator + product.priceAfterDiscount,
       0
     );
-    await cartModel.findByIdAndUpdate(cartId, {
+
+    await cartModel.findByIdAndUpdate(updatedCart._id, {
       totalPrice: totalPrice,
       priceAfterDiscount: priceAfterDiscount,
     });
+
     res.send({ message: "success", cart: updatedCart });
   } catch (error) {
     res.send({ error: "Error updating cart", errorMessage: error.message });
@@ -60,7 +64,7 @@ export const applyCoupon = async (req, res) => {
 
   try {
     const coupon = await couponModel.findOne({ couponCode: couponCode });
-    console.log(coupon)
+    console.log(coupon);
     if (!coupon) {
       return res.send({ message: "Coupon not found" });
     }
@@ -72,10 +76,10 @@ export const applyCoupon = async (req, res) => {
       { new: true }
     );
     const cart = await cartModel.findOne({ userId: user.id });
-    return res.send({ message: "Cart updated" , cart: cart});
+    return res.send({ message: "Cart updated", cart: cart });
   } catch (error) {
-    return res.status(500).send({ error: "Error applying coupon", errorMessage: error.message });
+    return res
+      .status(500)
+      .send({ error: "Error applying coupon", errorMessage: error.message });
   }
 };
-
-
