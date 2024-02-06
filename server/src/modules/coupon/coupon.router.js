@@ -6,6 +6,7 @@ import { couponSchema } from "./coupon.validation.js";
 const couponRouter = express.Router();
 
 couponRouter.get("/coupon", coupons);
+
 couponRouter.post("/coupon", validate(couponSchema), auth, addCoupon);
 
 couponRouter.put('/coupon' , auth, updateCoupon)

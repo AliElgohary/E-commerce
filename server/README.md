@@ -163,3 +163,90 @@
        "image": "thisistheimageurl"
      }
      ```
+
+## Coupons APIs
+
+1. Get all Coupons - A GET request
+
+   - Endpoint: [http://localhost:5000/coupon]
+
+2. Create a new Coupon - A POST request
+
+   - Endpoint: [http://localhost:5000/coupon]
+   - JSON Body Example:
+     ```json
+     {
+       "couponCode": "vxcz",
+       "value": 11,
+       "expireIn": "2024-12-31"
+     }
+     ```
+
+3. update Coupon by ID - A PUT request
+
+   - Endpoint: [http://localhost:5000/coupon]
+   - JSON Body Example:
+     ```json
+     {
+       "couponCode": "vxcz",
+       "value": 43,
+       "expireIn": "2024-2-30"
+     }
+     ```
+
+4. apply Coupon on all products - A PATCH request
+
+   - Endpoint: [http://localhost:5000/coupon]
+   - JSON Body Example:
+     ```json
+     {
+       "productName": "Product Name",
+       "couponCode": "code"
+     }
+     ```
+
+5. delete Coupon - A DELETE request
+
+   - Endpoint: [http://localhost:5000/coupon]
+   - JSON Body Example:
+   ```json
+   {
+     "couponCode": "code"
+   }
+   ```
+
+## Cart APIs
+
+1. create Cart - A POST request
+
+   - Endpoint: [http://localhost:5000/cart]
+   -user needs to be logged in
+   - JSON Body Example:
+   ```json
+   {
+
+   }
+   ```
+
+2. update Cart - A PATCH request
+
+   - Endpoint: [http://localhost:5000/cart]
+   -user needs to be logged in
+   - JSON Body Example:
+   ```json
+   {
+    "cartId" : "65c0d55c9803f6ad5175f607",
+    "productNames": ["Product Name"]
+   }
+   ```
+
+3. apply coupon on Cart - A PUT request
+
+   - Endpoint: [http://localhost:5000/cart/coupon/]
+   -user needs to be logged in
+   - JSON Body Example:
+   ```json
+   {
+    "couponCode":"salem"
+   }
+   ```
