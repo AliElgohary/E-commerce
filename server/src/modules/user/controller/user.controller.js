@@ -104,4 +104,11 @@ export const verifyAccount = async (req, res) => {
   });
 };
 
-export const resetPassword = (req, res) => {};
+export const resetPassword = async (req, res) => {
+  const { newPassword } = req.body;
+  const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
+  const user = await userModel.findByIdAndUpdate(req.userId, {
+    password: hashedNewPassword,
+  });
+  return res.send({ message: "password reset", user: user });
+};

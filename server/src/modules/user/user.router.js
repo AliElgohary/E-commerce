@@ -5,6 +5,7 @@ import {
   addUser,
   deactivate,
   getUsers,
+  resetPassword,
   signIn,
   updateUser,
   verifyAccount,
@@ -24,5 +25,7 @@ userRouter.put("/users", auth, deactivate);
 userRouter.patch("/users", validate(updateUserSchema), adminAuth, updateUser);
 
 userRouter.get("/users/verify/:token", verifyAccount )
+
+userRouter.put("/users/reset", auth, resetPassword)
 
 export default userRouter;

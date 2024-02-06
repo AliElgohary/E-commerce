@@ -2,6 +2,7 @@ import express from "express";
 import {
   addProduct,
   getProductsWithCategory,
+  productPagination,
   products,
   updateProduct,
 } from "./controller/product.controller.js";
@@ -23,5 +24,7 @@ productRouter.patch(
   validate(updateProductSchema),
   updateProduct
 );
+
+productRouter.get("/products/paginate", productPagination);
 
 export default productRouter;

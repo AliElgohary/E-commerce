@@ -94,3 +94,14 @@ export const updateProduct = async (req, res) => {
     }
   }
 };
+
+export const productPagination = async (req, res) => {
+  const page = req.query.page;
+  console.log(page);
+  const productsPerPage = 3;
+  const products = await productModel
+    .find()
+    .skip(page * productsPerPage)
+    .limit(productsPerPage);
+  res.json({ message: "success", products: products });
+};
