@@ -77,3 +77,5 @@ export const applyCoupon = async (req, res) => {
     return res.status(500).send({ error: "Error applying coupon", errorMessage: error.message });
   }
 };
+
+
