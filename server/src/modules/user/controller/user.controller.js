@@ -75,15 +75,16 @@ export const deactivate = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    const userId = req.params.id;
     const { userName, email, password, address } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
-    await userModel.findByIdAndUpdate(req.userId, {
+    await userModel.findByIdAndUpdate(userId, {
       userName,
       email,
       password: hashedPassword,
       address,
     });
-    const user = await userModel.findById(req.userId);
+    const user = await userModel.findById(userId);
     res.send({ message: "user updated succesfully", updatedUser: user });
   } catch (error) {
     res.send({ error: "error updating user" + error });

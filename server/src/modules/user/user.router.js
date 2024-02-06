@@ -20,9 +20,9 @@ userRouter.post("/users", validate(addUserSchema), addUser);
 
 userRouter.post("/users/signin", signIn);
 
-userRouter.put("/users", auth, deactivate);
+userRouter.put("/users/deactivate", auth, deactivate);
 
-userRouter.patch("/users", validate(updateUserSchema), adminAuth, updateUser);
+userRouter.patch("/users/:id", validate(updateUserSchema), adminAuth, updateUser);
 
 userRouter.get("/users/verify/:token", verifyAccount )
 
