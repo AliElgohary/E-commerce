@@ -9,7 +9,7 @@ import NotFound from './pages/NotFound';
 import UsersList from './pages/UsersList';
 import LoginForm from './components/LoginForm';
 import Products from './pages/Products';
-import Footer from './components/Footer';
+
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
       <Route exact path={'/login'} component={LoginForm}/>
       <Route path={'**'} component={NotFound}></Route>
       </Switch>
-      <Footer></Footer>
+
       </BrowserRouter>
     </div>
   );

@@ -1,7 +1,6 @@
 export default function Footer() {
   return (
-    
-      <footer class="text-center text-white bg-dark navbar fixed-bottom">
+      <footer class="text-center text-white bg-dark navbar ">
         <div class="container p-4 pb-0">
           <section class="w-100">
             <p class="d-flex justify-content-center align-items-center">
