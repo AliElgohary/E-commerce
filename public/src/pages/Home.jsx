@@ -2,9 +2,6 @@ import Features from "../components/Features";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MainSection from "../components/MainSection";
-import Products from "./Products";
-
-
 
 function Home() {
   

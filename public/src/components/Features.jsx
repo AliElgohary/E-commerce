@@ -69,6 +69,7 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
