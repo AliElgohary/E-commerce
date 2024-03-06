@@ -4,12 +4,14 @@ import { getProducts } from "../store/action/productsAction";
 import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function Products() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const products = useSelector((state) => state.products.products);
-  const token = useSelector((state) => state.auth.token); // Get token from Redux store
+  const token = useSelector((state) => state.auth.token); 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getProducts());
@@ -26,12 +28,14 @@ function Products() {
       const data = {
         productNames: productNames,
       };
-
-      await axios.post("http://localhost:5000/cart", {}, config);
-
-      await axios.patch("http://localhost:5000/cart", data, config);
-
-      console.log("Products added to cart successfully.");
+      if(token) {
+              await axios.post("http://localhost:5000/cart", {}, config);
+              await axios.patch("http://localhost:5000/cart", data, config);
+              console.log("Products added to cart successfully.");
+      } 
+      if(!token){
+        history.push('/login')
+      }
     } catch (error) {
       console.error("Error adding products to cart:", error);
     }

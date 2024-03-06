@@ -1,18 +1,21 @@
-import { useSelector, useDispatch } from "react-redux";
-import { changeLanguage } from "../store/action/languageAction";
+import Features from "../components/Features";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import MainSection from "../components/MainSection";
+import Products from "./Products";
+
+
 
 function Home() {
-  const language = useSelector((state) => state.language.lang);
-  const dispatch = useDispatch();
-  const change = () => {
-    dispatch(changeLanguage(language === 'en' ? 'ar' : 'en'));
-  };
+  
+
   return (
     <>
-      <div className="container">
-        <h1>This is Home</h1>
-        <button onClick={() => change()}>{language}</button>
-        <p>My language is {language}</p>
+      <div className="container align-items-center">
+        <Header/>
+        <MainSection />
+        <Features />
+        <Footer />
       </div>
     </>
   );

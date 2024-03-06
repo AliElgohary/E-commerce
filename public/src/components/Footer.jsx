@@ -28,8 +28,8 @@ export default function Footer() {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
         >
           © 2024 Copyright:
-          <a class="text-white" href="https://mdbootstrap.com/">
-            MDBootstrap.com
+          <a class="text-white" href="https://www.linkedin.com/in/alielgohary/">
+            AliElgohary
           </a>
         </div>
       </footer>

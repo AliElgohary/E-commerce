@@ -28,7 +28,6 @@ export const cashPayment = async (req, res) => {
   res.send({ message: "Cash payment processed successfully", order: order });
 };
 
-
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = new Stripe(stripeSecretKey);
 export const onlinePayment = async (req, res) => {
@@ -60,6 +59,16 @@ export const onlinePayment = async (req, res) => {
   });
   res.status(200).json({
     status: "success",
-    session: session.url
+    session: session.url,
   });
+};
+
+export const getUserOrders = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.userId);
+    const orders = await orderModel.find({ userId: user._id });
+    res.status(200).json({ orders: orders });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
