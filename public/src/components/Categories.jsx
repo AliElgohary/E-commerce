@@ -38,7 +38,7 @@ function Categories({ onSelectCategory }) {
           aria-label="Select category"
           onChange={handleCategoryChange}
         >
-          <option value="">Select category</option>
+          <option value="">All Products</option>
           {categories.map((category) => (
             <option key={category._id} value={category._id}>{category.categoryName}</option>
           ))}

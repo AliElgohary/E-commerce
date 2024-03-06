@@ -17,9 +17,9 @@ export const addUser = async (req, res) => {
       isVerfied,
       address,
     });
-    // let token = jwt.sign({ id: newUser[0]._id }, process.env.JWTSECRET);
-    // let url = `http://localhost:5000/users/verify/${token}`;
-    // sendEmail(email, url);
+    let token = jwt.sign({ id: newUser[0]._id }, process.env.JWTSECRET);
+    let url = `http://localhost:5000/users/verify/${token}`;
+    sendEmail(email, url);
     res.send({ message: "added", user: newUser });
   } catch (error) {
     res.send({ error: "cannot addUser" });

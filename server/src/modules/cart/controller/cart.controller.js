@@ -4,19 +4,31 @@ import userModel from "../../../../db/models/user.model.js";
 import couponModel from "../../../../db/models/coupon.model.js";
 
 export const createCart = async (req, res) => {
-  const user = await userModel.findById(req.userId);
-  console.log(user);
-  if (!user) return res.send({ failed: "user not found" });
-  const cart = await cartModel.find({ userId: user._id });
-  const newCart = await cartModel.insertMany({
-    userId: user._id,
-    totalPrice: 0,
-    priceAfterDiscount: 0,
-    products: [],
-  });
-  res.send({ created: newCart });
-  if (cart.length == 0) return res.send({ message: "empty cart" });
+  try {
+    const user = await userModel.findById(req.userId);
+    if (!user) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    const existingCart = await cartModel.findOne({ userId: user._id });
+    if (existingCart) {
+      return res.status(201).send({ cart: existingCart });
+    }
+
+    const newCart = await cartModel.create({
+      userId: user._id,
+      totalPrice: 0,
+      priceAfterDiscount: 0,
+      products: [],
+    });
+
+    res.status(201).send({ created: newCart });
+  } catch (error) {
+    console.error("Error creating cart:", error);
+    res.status(500).send({ error: "Internal server error" });
+  }
 };
+
 
 export const updateCart = async (req, res) => {
   const { productNames } = req.body;
@@ -81,5 +93,22 @@ export const applyCoupon = async (req, res) => {
     return res
       .status(500)
       .send({ error: "Error applying coupon", errorMessage: error.message });
+  }
+};
+
+export const getUserCart = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const userCart = await cartModel.findOne({ userId: user._id });
+    if (!userCart) {
+      return res.status(404).json({ message: "User's cart not found" });
+    }
+    res.status(200).json({ cart: userCart });
+  } catch (error) {
+    console.error("Error getting user cart:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

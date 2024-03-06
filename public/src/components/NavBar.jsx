@@ -1,29 +1,22 @@
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { useSelector, useDispatch } from "react-redux";
-import { changeTheme } from "../store/action/themeAction";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/action/authActions"; // Import logout action
+
 function Navbar() {
-  const language = useSelector((state) => state.language.language);
-  const theme = useSelector((state) => state.theme.theme);
+  const isAuthenticated = useSelector((state) => state.auth.token !== null);
   const dispatch = useDispatch();
-  const changeMyTheme = () => {
-    dispatch(changeTheme(theme === 'dark' ? 'light' : 'dark'));
+  const history = useHistory();
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/");
   };
+
   return (
     <>
-      <ul className="nav justify-content-center">
-        <li className="nav-item">
+      <ul className="nav justify-content-center text-light">
+        <li className="nav-item ">
           <Link className="nav-link active" to="/">
             Home
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/add">
-            ADD
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/fun">
-            Function Component
           </Link>
         </li>
         <li className="nav-item">
@@ -32,15 +25,26 @@ function Navbar() {
           </Link>
         </li>
         <li className="nav-item">
-          <p className="nav-link">{language}</p>
+          <Link className="nav-link" to="/cart">
+            Cart
+          </Link>
         </li>
-        <li className="nav-item">
-          <button className="btn btn-info" onClick={() => changeMyTheme()}>
-          {theme === 'light' ? 'light theme' : 'dark theme'}
-          </button>
-        </li>
+        {isAuthenticated ? (
+          <li className="nav-item">
+            <button className="nav-link" onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
+        ) : (
+          <li className="nav-item">
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+        )}
       </ul>
     </>
   );
 }
+
 export default Navbar;
