@@ -44,7 +44,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Grid container justifyContent="center" style={{ marginTop: '50px' }}>
+    <Grid container justifyContent="center" style={{ marginTop: '50px', height: "100vh" }}>
       <Grid item xs={12} sm={6} md={4}>
         <Typography variant="h4" align="center" gutterBottom>
           Login
@@ -75,7 +75,7 @@ const LoginForm = () => {
             Login
           </Button>
         </form>
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div style={{ marginTop: '20px', textAlign: 'center', color: 'black' }}>
           <Typography variant="body1">
             Don't have an account? <Link to="/register">Register here</Link>
           </Typography>
