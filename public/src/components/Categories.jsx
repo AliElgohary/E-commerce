@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Select, MenuItem, CircularProgress, FormControl, InputLabel } from '@mui/material'; // Import Material-UI components
 import axios from 'axios';
 
 function Categories({ onSelectCategory }) {
@@ -29,20 +30,27 @@ function Categories({ onSelectCategory }) {
   return (
     <div>
       {loading ? (
-        <p>Loading categories...</p>
+        <CircularProgress /> 
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <select
-          className="form-select container w-50 my-2"
-          aria-label="Select category"
-          onChange={handleCategoryChange}
-        >
-          <option value="">All Products</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>{category.categoryName}</option>
-          ))}
-        </select>
+        <FormControl variant="outlined" className="container w-50 my-2">
+          <InputLabel id="category-select-label">Select category</InputLabel>
+          <Select
+            labelId="category-select-label"
+            id="category-select"
+            value=""
+            label="Select category"
+            onChange={handleCategoryChange}
+          >
+            <MenuItem value="">All Products</MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category._id} value={category._id}>
+                {category.categoryName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       )}
     </div>
   );

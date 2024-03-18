@@ -13,22 +13,20 @@ import Orders from "./pages/Orders";
 
 function App() {
   return (
-    <div
-      div
-      className="min-h-screen flex flex-col justify-between"
-      style={{ backgroundColor: "#111827" }}
-    >
+    <div className="App" style={{ backgroundColor: "#f0f2f5", display: "flex", flexDirection: "column" }}>
       <BrowserRouter>
-        <Navbar></Navbar>
-        <Switch>
-          <Route exact path={"/"} component={Home} />
-          <Route exact path={"/products"} component={Products} />
-          <Route path="/cart" component={withAuth(Cart)} />
-          <Route path="/orders" component={withAuth(Orders)} />
-          <Route exact path={"/login"} component={LoginForm} />
-          <Route exact path={"/register"} component={RegistrationForm} />
-          <Route path={"**"} component={NotFound}></Route>
-        </Switch>
+        <Navbar />
+        <div style={{ flex: 1, paddingTop: "10px" }}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/products" component={Products} />
+            <Route path="/cart" component={withAuth(Cart)} />
+            <Route path="/orders" component={withAuth(Orders)} />
+            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/register" component={RegistrationForm} />
+            <Route path="**" component={NotFound} />
+          </Switch>
+        </div>
       </BrowserRouter>
     </div>
   );

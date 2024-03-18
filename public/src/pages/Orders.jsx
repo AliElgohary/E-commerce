@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material"; // Import Material-UI components
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -29,7 +30,7 @@ function Orders() {
   }, [token]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <CircularProgress />; 
   }
 
   if (error) {
@@ -37,32 +38,34 @@ function Orders() {
   }
 
   if (orders.length === 0) {
-    return <div>No orders found</div>;
+    return <Typography>No orders found</Typography>;
   }
 
   return (
     <div className="container">
-      <h2 className="my-4">Orders</h2>
-      <table className="table table-striped">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Total Price</th>
-            <th scope="col">Payment Method</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td>{order._id}</td>
-              <td>${order.totalPrice}</td>
-              <td>{order.paymentMethod}</td>
-              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Typography variant="h2" className="my-4">Orders</Typography>
+      <TableContainer component={Paper}>
+        <Table aria-label="Orders table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Total Price</TableCell>
+              <TableCell>Payment Method</TableCell>
+              <TableCell>Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order._id}>
+                <TableCell>{order._id}</TableCell>
+                <TableCell>${order.totalPrice}</TableCell>
+                <TableCell>{order.paymentMethod}</TableCell>
+                <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

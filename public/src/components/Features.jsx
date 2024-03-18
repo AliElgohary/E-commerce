@@ -1,75 +1,68 @@
-import React from "react";
-import './headers.styles.css'
+import React from 'react';
+import { Typography, Grid, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import './headers.styles.css';
 
 const ProductDetailsPage = () => {
   const product = {
-    name: "Categories",
-    description:
-      "We have a list of categories for your needs, including clothing and electronics and other products",
+    name: 'Categories',
+    description: 'We have a list of categories for your needs, including clothing and electronics and other products',
   };
 
   const features = [
     {
-      title: "High Quality Material",
-      description: "Made with premium materials for durability and comfort.",
-      icon: process.env.PUBLIC_URL + "/images/clothes1.jpg",
+      title: 'High Quality Material',
+      description: 'Made with premium materials for durability and comfort.',
+      icon: process.env.PUBLIC_URL + '/images/clothes1.jpg',
     },
     {
-      title: "Stylish Design",
-      description: "Sleek and modern design that enhances any space.",
-      icon: process.env.PUBLIC_URL + "/images/clothes2.jpg",
+      title: 'Stylish Design',
+      description: 'Sleek and modern design that enhances any space.',
+      icon: process.env.PUBLIC_URL + '/images/clothes2.jpg',
     },
     {
-      title: "Easy to Use",
-      description: "Intuitive controls for effortless operation.",
-      icon: process.env.PUBLIC_URL + "/images/clothes3.jpg",
+      title: 'Easy to Use',
+      description: 'Intuitive controls for effortless operation.',
+      icon: process.env.PUBLIC_URL + '/images/clothes3.jpg',
     },
   ];
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <div className="col-lg-6">
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={6}>
           <div className="product-details">
-            <h2>{product.name}</h2>
-            <h4>{product.description}</h4>
+            <Typography variant="h2" gutterBottom>
+              {product.name}
+            </Typography>
+            <Typography variant="h4">{product.description}</Typography>
+            <div className="m-4">
+              <Typography variant="h6">clothes</Typography>
+              <Typography variant="h6">Electronics</Typography>
+              <Typography variant="h6">Furniture</Typography>
+            </div>
           </div>
-          <div className="m-4">
-            <h1>clothes</h1>
-            <h1>Electronics</h1>
-            <h1>Furniture</h1>
-          </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="product-features ">
-            <h3>Product Features</h3>
-            <ul className="list-group ">
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <div className="product-features">
+            <Typography variant="h3" gutterBottom>
+              Product Features
+            </Typography>
+            <List>
               {features.map((feature, index) => (
-                <li key={index} className="list-group-item">
-                  <div className="d-flex align-items-center bg-light ">
-                    <div className="feature-icon m-4">
-                      <img
-                        src={feature.icon}
-                        alt={feature.title}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "5px",
-                        }}
-                      />
-                    </div>
-                    <div className="feature-details ml-3">
-                      <h4>{feature.title}</h4>
-                      <p>{feature.description}</p>
-                    </div>
-                  </div>
-                </li>
+                <ListItem key={index}>
+                  <ListItemAvatar>
+                    <Avatar src={feature.icon} alt={feature.title} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={feature.title}
+                    secondary={feature.description}
+                  />
+                </ListItem>
               ))}
-            </ul>
+            </List>
           </div>
-        </div>
-      </div>
-      
+        </Grid>
+      </Grid>
     </div>
   );
 };
